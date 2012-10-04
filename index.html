@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Octonode by djyde</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Octonode</h1>
+          <h2>github api v3 in nodejs</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/djyde/octonode/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/djyde/octonode/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/djyde/octonode" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>octonode</h1>
+
+<p>octonode is a library for nodejs to access the <a href="http://developer.github.com">github v3 api</a></p>
+
+<h2>Installation</h2>
+
+<pre><code>npm install octonode
+</code></pre>
+
+<h2>Usage</h2>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">github</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'octonode'</span><span class="p">);</span>
+
+<span class="c1">// Then we instanciate a client with or without a token (as show in a later section)</span>
+
+<span class="kd">var</span> <span class="nx">ghme</span>   <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">me</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">ghuser</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">user</span><span class="p">(</span><span class="s1">'pksunkara'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ghrepo</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">repo</span><span class="p">(</span><span class="s1">'pksunkara/hub'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ghorg</span>  <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">org</span><span class="p">(</span><span class="s1">'flatiron'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ghgist</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">gist</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">ghteam</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">team</span><span class="p">(</span><span class="mi">37</span><span class="p">);</span>
+</pre></div>
+
+<h3>Build a client which accesses any public information</h3>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">github</span><span class="p">.</span><span class="nx">client</span><span class="p">();</span>
+
+<span class="nx">client</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/users/pksunkara'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span> <span class="c1">//json object</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>Build a client from an access token</h3>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">github</span><span class="p">.</span><span class="nx">client</span><span class="p">(</span><span class="s1">'someaccesstoken'</span><span class="p">);</span>
+
+<span class="nx">client</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/user'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span> <span class="c1">//json object</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>Build a client from credentials</h3>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">github</span><span class="p">.</span><span class="nx">client</span><span class="p">({</span>
+  <span class="nx">username</span><span class="o">:</span> <span class="s1">'pksunkara'</span><span class="p">,</span>
+  <span class="nx">password</span><span class="o">:</span> <span class="s1">'password'</span>
+<span class="p">});</span>
+
+<span class="nx">client</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/user'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span> <span class="c1">//json object</span>
+<span class="p">});</span>
+</pre></div>
+
+<p><strong>Many of the below use cases use parts of the above code</strong></p>
+
+<h2>Authentication</h2>
+
+<h3>Authenticate to github in cli mode (desktop application)</h3>
+
+<div class="highlight"><pre><span class="nx">github</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+  <span class="nx">username</span><span class="o">:</span> <span class="s1">'pksunkara'</span><span class="p">,</span>
+  <span class="nx">password</span><span class="o">:</span> <span class="s1">'password'</span>
+<span class="p">}).</span><span class="nx">login</span><span class="p">([</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'repo'</span><span class="p">,</span> <span class="s1">'gist'</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">token</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>Revoke authentication to github in cli mode (desktop application)</h3>
+
+<div class="highlight"><pre><span class="nx">github</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+  <span class="nx">username</span><span class="o">:</span> <span class="s1">'pksunkara'</span><span class="p">,</span>
+  <span class="nx">password</span><span class="o">:</span> <span class="s1">'password'</span>
+<span class="p">}).</span><span class="nx">revoke</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>Authenticate to github in web mode (web application)</h3>
+
+<div class="highlight"><pre><span class="c1">// Web application which authenticates to github</span>
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'http'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'url'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">qs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'querystring'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">github</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'octonode'</span><span class="p">);</span>
+
+<span class="c1">// Build the authorization config and url</span>
+<span class="kd">var</span> <span class="nx">auth_url</span> <span class="o">=</span> <span class="nx">github</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="s1">'mygithubclientid'</span><span class="p">,</span>
+  <span class="nx">secret</span><span class="o">:</span> <span class="s1">'mygithubclientsecret'</span>
+<span class="p">}).</span><span class="nx">login</span><span class="p">([</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'repo'</span><span class="p">,</span> <span class="s1">'gist'</span><span class="p">]);</span>
+
+<span class="c1">// Web server</span>
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">uri</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+  <span class="c1">// Redirect to github login</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">uri</span><span class="p">.</span><span class="nx">pathname</span><span class="o">==</span><span class="s1">'/login'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">301</span><span class="p">,</span> <span class="p">{</span><span class="s1">'Content-Type'</span><span class="o">:</span> <span class="s1">'text/plain'</span><span class="p">,</span> <span class="s1">'Location'</span><span class="o">:</span> <span class="nx">auth_url</span><span class="p">})</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">'Redirecting to '</span> <span class="o">+</span> <span class="nx">auth_url</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="c1">// Callback url from github login</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">uri</span><span class="p">.</span><span class="nx">pathname</span><span class="o">==</span><span class="s1">'/auth'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">github</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">login</span><span class="p">(</span><span class="nx">qs</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">uri</span><span class="p">.</span><span class="nx">query</span><span class="p">).</span><span class="nx">code</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">token</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">'Content-Type'</span><span class="o">:</span> <span class="s1">'text/plain'</span><span class="p">})</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">'Content-Type'</span><span class="o">:</span> <span class="s1">'text/plain'</span><span class="p">})</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Server started on 3000'</span><span class="p">);</span>
+</pre></div>
+
+<h2>API Callback Structure</h2>
+
+<p><strong>All the callbacks for the following will take first an error argument, then a data argument, like this:</strong></p>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"error: "</span> <span class="o">+</span> <span class="nx">err</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"data: "</span> <span class="o">+</span> <span class="nx">data</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>Github authenticated user api</h2>
+
+<p>Token/Credentials required for the following:</p>
+
+<h3>Get information about the user (GET /user)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//json</span>
+</pre></div>
+
+<h3>Update user profile (PATCH /user)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
+  <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"monalisa octocat"</span><span class="p">,</span>
+  <span class="s2">"email"</span><span class="o">:</span> <span class="s2">"octocat@github.com"</span><span class="p">,</span>
+<span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+</pre></div>
+
+<h3>Get emails of the user (GET /user/emails)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">emails</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of emails</span>
+</pre></div>
+
+<h3>Set emails of the user (POST /user/emails)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">emails</span><span class="p">([</span><span class="s1">'new1@ma.il'</span><span class="p">,</span> <span class="s1">'new2@ma.il'</span><span class="p">],</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of emails</span>
+<span class="nx">ghme</span><span class="p">.</span><span class="nx">emails</span><span class="p">(</span><span class="s1">'new@ma.il'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of emails</span>
+</pre></div>
+
+<h3>Delete emails of the user (DELETE /user/emails)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">emails</span><span class="p">([</span><span class="s1">'new1@ma.il'</span><span class="p">,</span> <span class="s1">'new2@ma.il'</span><span class="p">]);</span>
+<span class="nx">ghme</span><span class="p">.</span><span class="nx">emails</span><span class="p">(</span><span class="s1">'new@ma.il'</span><span class="p">);</span>
+</pre></div>
+
+<h3>Get the followers of the user (GET /user/followers)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">followers</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h3>Get users whom the user is following (GET /user/following)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">following</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h3>Check if the user is following a user (GET /user/following/marak)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">following</span><span class="p">(</span><span class="s1">'marak'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//boolean</span>
+</pre></div>
+
+<h3>Follow a user (PUT /user/following/marak)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">follow</span><span class="p">(</span><span class="s1">'marak'</span><span class="p">);</span>
+</pre></div>
+
+<h3>Unfollow a user (DELETE /user/following/marak)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">unfollow</span><span class="p">(</span><span class="s1">'marak'</span><span class="p">);</span>
+</pre></div>
+
+<h3>Get public keys of a user (GET /user/keys)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of keys</span>
+</pre></div>
+
+<h3>Get a single public key (GET /user/keys/1)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//key</span>
+</pre></div>
+
+<h3>Create a public key (POST /user/keys)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">keys</span><span class="p">({</span><span class="s2">"title"</span><span class="o">:</span><span class="s2">"laptop"</span><span class="p">,</span> <span class="s2">"key"</span><span class="o">:</span><span class="s2">"ssh-rsa AAA..."</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//key</span>
+</pre></div>
+
+<h3>Update a public key (PATCH /user/keys/1)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="s2">"title"</span><span class="o">:</span><span class="s2">"desktop"</span><span class="p">,</span> <span class="s2">"key"</span><span class="o">:</span><span class="s2">"ssh-rsa AAA..."</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//key</span>
+</pre></div>
+
+<h3>Delete a public key (DELETE /user/keys/1)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+<h3>List your public and private organizations (GET /user/orgs)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">orgs</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">// array of orgs</span>
+</pre></div>
+
+<h3>List your repositories (GET /user/repos)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">repos</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of repos</span>
+</pre></div>
+
+<h3>Create a repository (POST /user/repos)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">repos</span><span class="p">({</span>
+  <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"Hello-World"</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="o">:</span> <span class="s2">"This is your first repo"</span><span class="p">,</span>
+<span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//repo</span>
+</pre></div>
+
+<h3>Fork a repository (POST /repos/pksunkara/hub/forks)</h3>
+
+<div class="highlight"><pre><span class="nx">ghme</span><span class="p">.</span><span class="nx">fork</span><span class="p">(</span><span class="s1">'pksunkara/hub'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//forked repo</span>
+</pre></div>
+
+<h2>Github users api</h2>
+
+<p>No token required for the following</p>
+
+<h3>Get information about an user (GET /users/pksunkara)</h3>
+
+<div class="highlight"><pre><span class="nx">ghuser</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//json</span>
+</pre></div>
+
+<h3>Get an user followers (GET /users/pksunkara/followers)</h3>
+
+<div class="highlight"><pre><span class="nx">ghuser</span><span class="p">.</span><span class="nx">followers</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h3>Get an user followings (GET /users/pksunkara/following)</h3>
+
+<div class="highlight"><pre><span class="nx">ghuser</span><span class="p">.</span><span class="nx">following</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h2>Github repositories api</h2>
+
+<h3>Get information about a repository (GET /repos/pksunkara/octonode)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//json</span>
+</pre></div>
+
+<h3>Get the commits for a repository (GET /repos/pkumar/hub/commits)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">commits</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of commits</span>
+</pre></div>
+
+<h3>Get the tags for a repository (GET /repos/pksunkara/hub/tags)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">tags</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of tags</span>
+</pre></div>
+
+<h3>Get the languages for a repository (GET /repos/pksunkara/hub/languages)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">languages</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of languages</span>
+</pre></div>
+
+<h3>Get the contributors for a repository (GET /repos/pksunkara/hub/contributors)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">contributors</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h3>Get the branches for a repository (GET /repos/pksunkara/hub/branches)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">branches</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of branches</span>
+</pre></div>
+
+<h3>Get the issues for a repository (GET /repos/pksunkara/hub/issues)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">issues</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of issues</span>
+</pre></div>
+
+<h3>Get the README for a repository (GET /repos/pksunkara/hub/readme)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">readme</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//file</span>
+<span class="nx">ghrepo</span><span class="p">.</span><span class="nx">readme</span><span class="p">(</span><span class="s1">'v0.1.0'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//file</span>
+</pre></div>
+
+<h3>Get the contents of a path in repository</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">contents</span><span class="p">(</span><span class="s1">'lib/index.js'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//path</span>
+<span class="nx">ghrepo</span><span class="p">.</span><span class="nx">contents</span><span class="p">(</span><span class="s1">'lib/index.js'</span><span class="p">,</span> <span class="s1">'v0.1.0'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//path</span>
+</pre></div>
+
+<h3>Get archive link for a repository</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">archive</span><span class="p">(</span><span class="s1">'tarball'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//link to archive</span>
+<span class="nx">ghrepo</span><span class="p">.</span><span class="nx">archive</span><span class="p">(</span><span class="s1">'zipball'</span><span class="p">,</span> <span class="s1">'v0.1.0'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//link to archive</span>
+</pre></div>
+
+<h3>Get the blob for a repository (GET /repos/pksunkara/hub/git/blobs/SHA)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">blob</span><span class="p">(</span><span class="s1">'18293abcd72'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//blob</span>
+</pre></div>
+
+<h3>Get the teams for a repository (GET /repos/pksunkara/hub/teams)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">teams</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of teams</span>
+</pre></div>
+
+<h3>Delete the repository (DELETE /repos/pksunkara/hub)</h3>
+
+<div class="highlight"><pre><span class="nx">ghrepo</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
+</pre></div>
+
+<h2>Github organizations api</h2>
+
+<h3>Get information about an organization (GET /orgs/flatiron)</h3>
+
+<div class="highlight"><pre><span class="nx">ghorg</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//json</span>
+</pre></div>
+
+<h3>List organization repositories (GET /orgs/flatiron/repos)</h3>
+
+<div class="highlight"><pre><span class="nx">ghorg</span><span class="p">.</span><span class="nx">repos</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of repos</span>
+</pre></div>
+
+<h3>Create an organization repository (POST /orgs/flatiron/repos)</h3>
+
+<div class="highlight"><pre><span class="nx">ghorg</span><span class="p">.</span><span class="nx">repos</span><span class="p">({</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">'Hello-world'</span><span class="p">,</span>
+  <span class="nx">description</span><span class="o">:</span> <span class="s1">'My first world program'</span>
+<span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//repo</span>
+</pre></div>
+
+<h3>Get an organization's teams (GET /orgs/flatiron/teams)</h3>
+
+<div class="highlight"><pre><span class="nx">ghorg</span><span class="p">.</span><span class="nx">teams</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of teams</span>
+</pre></div>
+
+<h3>Get an organization's members (GET /orgs/flatiron/members)</h3>
+
+<div class="highlight"><pre><span class="nx">ghorg</span><span class="p">.</span><span class="nx">members</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h3>Check an organization member (GET /orgs/flatiron/members/pksunkara)</h3>
+
+<div class="highlight"><pre><span class="nx">ghorg</span><span class="p">.</span><span class="nx">member</span><span class="p">(</span><span class="s1">'pksunkara'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//boolean</span>
+</pre></div>
+
+<h2>Github gists api</h2>
+
+<h3>List authenticated user's gists (GET /gists)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">list</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of gists</span>
+</pre></div>
+
+<h3>List authenticated user's public gists (GET /gists/public)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="kr">public</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of gists</span>
+</pre></div>
+
+<h3>List authenticated user's starred gists (GET /gists/starred)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">starred</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of gists</span>
+</pre></div>
+
+<h3>List a user's public gists (GET /users/pksunkara/gists)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">user</span><span class="p">(</span><span class="s1">'pksunkara'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of gists</span>
+</pre></div>
+
+<h3>Get a single gist (GET /gists/37)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//gist</span>
+</pre></div>
+
+<h3>Create a gist (POST /gists)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="nx">description</span><span class="o">:</span> <span class="s2">"the description"</span><span class="p">,</span>
+  <span class="nx">files</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}),</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//gist</span>
+</pre></div>
+
+<h3>Edit a gist (PATCH /gists/37)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">edit</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">description</span><span class="o">:</span> <span class="s2">"hello gist"</span>
+<span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//gist</span>
+</pre></div>
+
+<h3>Delete a gist (DELETE /gists/37)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">37</span><span class="p">);</span>
+</pre></div>
+
+<h3>Star a gist (PUT /gists/37/star)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">star</span><span class="p">(</span><span class="mi">37</span><span class="p">);</span>
+</pre></div>
+
+<h3>Unstar a gist (DELETE /gists/37/unstar)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">unstar</span><span class="p">(</span><span class="mi">37</span><span class="p">);</span>
+</pre></div>
+
+<h3>Check if a gist is starred (GET /gists/37/star)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">check</span><span class="p">(</span><span class="mi">37</span><span class="p">);</span> <span class="c1">//boolean</span>
+</pre></div>
+
+<h3>List comments on a gist (GET /gists/37/comments)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">comments</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of comments</span>
+</pre></div>
+
+<h3>Create a comment (POST /gists/37/comments)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">comments</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="s2">"Just commenting"</span>
+<span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//comment</span>
+</pre></div>
+
+<h3>Get a single comment (GET /gists/comments/1)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">comment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//comment</span>
+</pre></div>
+
+<h3>Edit a comment (POST /gists/comments/1)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">comment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="s2">"lol at commenting"</span>
+<span class="p">},</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">//comment</span>
+</pre></div>
+
+<h3>Delete a comment (DELETE /gists/comments/1)</h3>
+
+<div class="highlight"><pre><span class="nx">ghgist</span><span class="p">.</span><span class="nx">comment</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+<h2>Github teams api</h2>
+
+<h3>Get a team (GET /team/37)</h3>
+
+<div class="highlight"><pre><span class="nx">ghteam</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//json</span>
+</pre></div>
+
+<h3>Get the team members (GET /team/37/members)</h3>
+
+<div class="highlight"><pre><span class="nx">ghteam</span><span class="p">.</span><span class="nx">members</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span> <span class="c1">//array of github users</span>
+</pre></div>
+
+<h3>Check if a user is part of the team (GET /team/37/members/pksunkara)</h3>
+
+<div class="highlight"><pre><span class="nx">ghteam</span><span class="p">.</span><span class="nx">member</span><span class="p">(</span><span class="s1">'pksunkara'</span><span class="p">);</span> <span class="c1">//boolean</span>
+</pre></div>
+
+<h2>Testing</h2>
+
+<pre><code>npm test
+</code></pre>
+
+<p>If you like this project, please watch this and follow me.</p>
+
+<h2>Contributors</h2>
+
+<p>Here is a list of <a href="http://github.com/pksunkara/octonode/contributors">Contributors</a></p>
+
+<h3>TODO</h3>
+
+<p>The following method names use underscore as an example. The library contains camel cased method names.</p>
+
+<div class="highlight"><pre><span class="c1">// public orgs for unauthenticated, private and public for authenticated</span>
+<span class="nx">me</span><span class="p">.</span><span class="nx">get_organizations</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// public repos for unauthenticated, private and public for authenticated</span>
+<span class="nx">me</span><span class="p">.</span><span class="nx">get_watched_repositories</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">me</span><span class="p">.</span><span class="nx">is_watching</span><span class="p">(</span><span class="s1">'repo'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">me</span><span class="p">.</span><span class="nx">start_watching</span><span class="p">(</span><span class="s1">'repo'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">me</span><span class="p">.</span><span class="nx">stop_watching</span><span class="p">(</span><span class="s1">'repo'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">me</span><span class="p">.</span><span class="nx">get_issues</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// organization data</span>
+<span class="kd">var</span> <span class="nx">org</span> <span class="o">=</span> <span class="nx">octonode</span><span class="p">.</span><span class="nx">Organization</span><span class="p">(</span><span class="s1">'bulletjs'</span><span class="p">);</span>
+
+<span class="nx">org</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">dict_with_update_properties</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">add_member</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'team'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">remove_member</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_public_members</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">is_public_member</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">make_member_public</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">conceal_member</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_team</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">create_team</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="s1">''</span><span class="p">,</span> <span class="nx">repo_names</span><span class="o">:</span><span class="s1">''</span><span class="p">,</span> <span class="nx">permission</span><span class="o">:</span><span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">edit_team</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="s1">''</span><span class="p">,</span> <span class="nx">permission</span><span class="o">:</span><span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">delete_team</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_team_members</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_team_member</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">remove_member_from_team</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'team'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_repositories</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">create_repository</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_team_repositories</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">get_team_repository</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">add_team_repository</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">org</span><span class="p">.</span><span class="nx">remove_team_repository</span><span class="p">(</span><span class="s1">'team'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">repo</span> <span class="o">=</span> <span class="nx">octonode</span><span class="p">.</span><span class="nx">Repository</span><span class="p">(</span><span class="s1">'pksunkara/octonode'</span><span class="p">);</span>
+
+<span class="nx">repo</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// collaborator information</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_collaborators</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">has_collaborator</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">add_collaborator</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">remove_collaborator</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// commit data</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_commit</span><span class="p">(</span><span class="s1">'sha-id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_all_comments</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_commit_comments</span><span class="p">(</span><span class="s1">'SHA ID'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">comment_on_commit</span><span class="p">({</span><span class="nx">body</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span> <span class="nx">commit_id</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span> <span class="nx">line</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span> <span class="nx">path</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span> <span class="nx">position</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_single_comment</span><span class="p">(</span><span class="s1">'comment id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_single_comment</span><span class="p">(</span><span class="s1">'comment id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_single_comment</span><span class="p">(</span><span class="s1">'comment id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// downloads</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_downloads</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_download</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_download</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="s1">'filepath'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_download</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// keys</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_deploy_keys</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_deploy_key</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_deploy_key</span><span class="p">({</span><span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span> <span class="nx">key</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_deploy_key</span><span class="p">({</span><span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span> <span class="nx">key</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_deploy_key</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// watcher data</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_watchers</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// pull requests</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_all_pull_request_comments</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_pull_request_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_pull_request_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="p">{</span><span class="nx">body</span><span class="o">:</span><span class="s1">''</span><span class="p">,</span> <span class="nx">commit_id</span><span class="o">:</span><span class="s1">''</span><span class="p">,</span> <span class="nx">path</span><span class="o">:</span><span class="s1">''</span><span class="p">,</span> <span class="nx">position</span><span class="o">:</span><span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">reply_to_pull_request_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'body'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_pull_request_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'body'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_pull_request_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_issues</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_issue</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_issue</span><span class="p">({</span><span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_issue</span><span class="p">({</span><span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_issue_comments</span><span class="p">(</span><span class="s1">'issue'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_issue_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_issue_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'comment'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_issue_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'comment'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_issue_comment</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_issue_events</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_events</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_event</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_labels</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_label</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_label</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_label</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_label</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_issue_labels</span><span class="p">(</span><span class="s1">'issue'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">add_labels_to_issue</span><span class="p">(</span><span class="s1">'issue'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'label1'</span><span class="p">,</span> <span class="s1">'label2'</span><span class="p">],</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">remove_label_from_issue</span><span class="p">(</span><span class="s1">'issue'</span><span class="p">,</span> <span class="s1">'labelid'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">set_labels_for_issue</span><span class="p">(</span><span class="s1">'issue'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'label1'</span><span class="p">,</span> <span class="s1">'label2'</span><span class="p">],</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">remove_all_labels_from_issue</span><span class="p">(</span><span class="s1">'issue'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_labels_for_milestone_issues</span><span class="p">(</span><span class="s1">'milestone'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_milestones</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_milestone</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_milestone</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">edit_milestone</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">delete_milestone</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+
+<span class="c1">// raw git access</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_blob</span><span class="p">(</span><span class="s1">'content'</span><span class="p">,</span> <span class="s1">'encoding'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_commit</span><span class="p">(</span><span class="s1">'sha-id'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_commit</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'tree'</span><span class="p">,</span> <span class="p">[</span><span class="nx">parents</span><span class="p">],</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_reference</span><span class="p">(</span><span class="s1">'ref'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">get_all_references</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">create_reference</span><span class="p">(</span><span class="s1">'ref'</span><span class="p">,</span> <span class="s1">'sha'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="nx">repo</span><span class="p">.</span><span class="nx">update_reference</span><span class="p">(</span><span class="s1">'ref'</span><span class="p">,</span> <span class="s1">'sha'</span><span class="p">,</span> <span class="nx">force</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+</pre></div>
+
+<p><strong>I accept pull requests and guarantee a reply back within a day</strong></p>
+
+<h2>License</h2>
+
+<p>MIT/X11</p>
+
+<h2>Bug Reports</h2>
+
+<p>Report <a href="http://github.com/pksunkara/octonode/issues">here</a>. <strong>Guaranteed reply within a day</strong>.</p>
+
+<h2>Contact</h2>
+
+<p>Pavan Kumar Sunkara (<a href="mailto:pavan.sss1991@gmail.com">pavan.sss1991@gmail.com</a>)</p>
+
+<p>Follow me on <a href="https://github.com/users/follow?target=pksunkara">github</a>, <a href="http://twitter.com/pksunkara">twitter</a></p>
+        </section>
+
+        <footer>
+          Octonode is maintained by <a href="https://github.com/djyde">djyde</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
